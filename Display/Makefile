@@ -1,4 +1,4 @@
-FILENAME   = LCD_LIB
+FILENAME   = LCDtest
 PORT       = /dev/cu.usbmodem14201
 DEVICE     = atmega328p
 PROGRAMMER = usbasp
