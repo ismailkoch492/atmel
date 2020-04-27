@@ -1,4 +1,4 @@
 # atmel
 Atmel Micro Controller Projects
 
-use **sudo make** command on terminal for make (for MacOS and Linux)
+type **sudo make** command and enter on terminal for make (for MacOS and Linux)
