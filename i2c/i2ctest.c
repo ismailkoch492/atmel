@@ -8,7 +8,6 @@ void sendStart(void);
 void startTransmitted(void);
 void stopTransmitted(void);
 
-
 int  main()
 {
   while(1)
@@ -26,3 +25,8 @@ void startTransmitted(void)
 {
     while (!(TWCR & (1<<TWINT)));
 } 
+
+void stopTransmitted(void)
+{
+  TWCR = (1<<TWINT)|(1<<TWEN)| (1<<TWSTO);
+}
