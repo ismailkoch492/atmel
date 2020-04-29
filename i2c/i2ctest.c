@@ -6,6 +6,8 @@
 
 void sendStart(void);
 void startTransmitted(void);
+void stopTransmitted(void);
+
 
 int  main()
 {
