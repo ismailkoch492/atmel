@@ -5,6 +5,7 @@
 #include <util/delay.h>
 
 void sendStart(void);
+void startTransmitted(void);
 
 int  main()
 {
@@ -14,7 +15,12 @@ int  main()
   }
 }
 
-void sendStart()
+void sendStart(void)
 {
-  TWCR = (1<<TWINT)|(1<<TWSTA)| (1<<TWEN)
+  TWCR = (1<<TWINT)|(1<<TWSTA)| (1<<TWEN);
 ]
+
+void startTransmitted(void)
+{
+    while (!(TWCR & (1<<TWINT)));
+} 
