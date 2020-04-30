@@ -6,15 +6,9 @@
 
 void sendStart(void);
 void startTransmitted(void);
+void checkTWSR(void);
 void stopTransmitted(void);
 
-int  main()
-{
-  while(1)
-  {
-    
-  }
-}
 
 void sendStart(void)
 {
@@ -24,7 +18,12 @@ void sendStart(void)
 void startTransmitted(void)
 {
     while (!(TWCR & (1<<TWINT)));
-} 
+}
+  
+void checkTWSR(void)
+{
+  
+}
 
 void stopTransmitted(void)
 {
