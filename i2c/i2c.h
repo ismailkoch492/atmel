@@ -6,9 +6,13 @@
 
 void sendStart(void);
 void startTransmitted(void);
-void checkTWSR(void);
+void checkTWSR_Start(void);
 
 void SLA_Wtransmitted_ACK_NACKreceived(void);
+void checkTWSR_MT_SLA_ACK(void);
+
+
+
 void stopTransmitted(void);
 
 void sendStart(void)
@@ -21,7 +25,7 @@ void startTransmitted(void)
   while (!(TWCR & (1<<TWINT)));
 }
   
-void checkTWSR(void)
+void checkTWSR_Start(void)
 {
   if((TWSR & 0xF8) != START)
     ERROR();
@@ -30,6 +34,12 @@ void checkTWSR(void)
 void SLA_Wtransmitted_ACK_NACKreceived(void);
 {
   while(!(TWCR & (1<<TWINT)));
+}
+  
+void checkTWSR_MT_SLA_ACK(void)
+{
+  if ((TWSR & 0xF8) != MT_SLA_ACK)
+    ERROR();
 }
 
 void stopTransmitted(void)
