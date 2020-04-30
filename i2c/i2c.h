@@ -17,12 +17,13 @@ void sendStart(void)
 
 void startTransmitted(void)
 {
-    while (!(TWCR & (1<<TWINT)));
+  while (!(TWCR & (1<<TWINT)));
 }
   
 void checkTWSR(void)
 {
-  
+  if((TWSR & 0xF8) != START)
+    ERROR();
 }
 
 void stopTransmitted(void)
