@@ -10,36 +10,49 @@
 
 void sendStart(void);
 void startTransmitted(void);
-void checkTWSR_Start(void);
-
+void checkStart(void);
+void sendSLA_W(void);
 void SLA_W_ACK_NACKreceived(void);
 void checkMT_SLA_ACK(void);
-
-
-void sendDataTWDR(void);
+void sendData(void);
 void dataACK_NACKreceived(void);
-void checkTWST_MT_DATA_ACK(void);
+void checkMT_DATA_ACK(void);
 void stopTransmitted(void);
 
 void sendStart(void)
 {
   TWCR = (1<<TWINT)|(1<<TWSTA)| (1<<TWEN);
-]
+}
 
 void startTransmitted(void)
 {
   while (!(TWCR & (1<<TWINT)));
 }
   
-void checkTWSR_Start(void)
+void checkStart(void)
 {
   if((TWSR & 0xF8) != START)
     ERROR();
 }
+
+void sendSLA_W(void)
+{
   
-void SLA_W_ACK_NACKreceived(void);
+}
+  
+void SLA_W_ACK_NACKreceived(void)
 {
   while(!(TWCR & (1<<TWINT)));
+}
+
+void sendDAta(void)
+{
+  
+}
+
+void dataACK_NACKreceived(void)
+{
+  
 }
   
 void checkMT_SLA_ACK(void)
