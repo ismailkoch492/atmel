@@ -6,11 +6,11 @@
 
 // Master Transmitter ---> S|SLA+W|a|DATA|a|P
 
-// Slave Transmitter  ---> S|SLA+R|a|data|A|data|~A|P or S
+// Slave Receiver     ---> S|SLA+W|a|DATA|a|DATA|A|P or S
 
 // Master Receiver    ---> S|SLA+R|a|data|A|data|~A|P
 
-// Slave Receiver     ---> S|SLA+W|a|DATA|a|DATA|A|P or S
+// Slave Transmitter  ---> S|SLA+R|a|data|A|data|~A|P or S
 
 void sendStart(void);
 void startTransmitted(void);
