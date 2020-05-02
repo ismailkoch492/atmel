@@ -4,13 +4,13 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
-// Master Transmitter ---> S|SLA+W|a|DATA|a|P                     ---> sendStart(); 
+// Master Transmitter ---> S|SLA+W|a|DATA|a|P               ---> sendStart();|sendSLA_W();|SLA_W_ACK_NACKreceived();|sendData();|dataACK_NACKreceived();|stopTransmitted(); 
 
-// Slave Receiver     ---> S|SLA+W|a|DATA|a|DATA|A|P or S         ---> sendStart(); 
+// Slave Receiver     ---> S|SLA+W|a|DATA|a|DATA|A|P or S   ---> 
 
-// Master Receiver    ---> S|SLA+R|a|data|A|data|~A|P             ---> sendStart(); 
+// Master Receiver    ---> S|SLA+R|a|data|A|data|~A|P       ---> sendStart();|sendSLA_R();|SLA_R_ACK_NACKreceived();|receiveData();|dataACK_NACKreceived();||stopTransmitted();
 
-// Slave Transmitter  ---> S|SLA+R|a|data|A|data|~A|P or S        ---> sendStart(); 
+// Slave Transmitter  ---> S|SLA+R|a|data|A|data|~A|P or S  ---> 
 
 void sendStart(void);//1
 void startTransmitted(void);//2
@@ -18,12 +18,13 @@ void checkStart(void);//3
 void sendSLA_W(void);//4
 void sendSLA_R(void);//4
 void SLA_W_ACK_NACKreceived(void);//5
-void SLA_R_ACK_NACKreceived();//5
+void SLA_R_ACK_NACKreceived(void);//5
 void checkMT_SLA_ACK(void);//6
 void checkMR_SLA_ACK(void);//6
 void sendData(int DATA);//7
 void receiveData(int DATA);//7
 void dataACK_NACKreceived(void);//8
+void dataACK_NACKsend(void);//9
 void checkMT_DATA_ACK(void);//9
 void checkMR_DATA_ACK(void);//9
 void stopTransmitted(void);//10
@@ -78,7 +79,7 @@ void checkMR_SLA_ACK(void) //6
     ERROR();
 }
 
-void sendDAta(int DATA) //7
+void sendData(int DATA) //7
 {
   TWDR = DATA;
   TWCR = (1<<TWINT) | (1<<TWEN);
@@ -92,6 +93,11 @@ void receiveData(void) //7
 void dataACK_NACKreceived(void) //8
 {
   while (!(TWCR & (1<<TWINT)));
+}
+
+void dataACK_NACKsend(void)
+{
+  
 }
 
 void checkMT_DATA_ACK(void) //9
