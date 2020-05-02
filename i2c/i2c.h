@@ -8,7 +8,7 @@
 
 // Slave Receiver     ---> S|SLA+W|a|DATA|a|DATA|A|P or S   ---> 
 
-// Master Receiver    ---> S|SLA+R|a|data|A|data|~A|P       ---> sendStart();|sendSLA_R();|SLA_R_ACK_NACKreceived();|receiveData();|dataACK_NACKreceived();||stopTransmitted();
+// Master Receiver    ---> S|SLA+R|a|data|A|data|~A|P       ---> sendStart();|sendSLA_R();|SLA_R_ACK_NACKreceived();|receiveData();|dataACK_NACKreceived();|receiveData();|void dataACK_NACKsend(void);|stopTransmitted();
 
 // Slave Transmitter  ---> S|SLA+R|a|data|A|data|~A|P or S  ---> 
 
@@ -24,7 +24,7 @@ void checkMR_SLA_ACK(void);//6
 void sendData(int DATA);//7
 void receiveData(int DATA);//7
 void dataACK_NACKreceived(void);//8
-void dataACK_NACKsend(void);//9
+void dataACK_NACKsend(void);//8
 void checkMT_DATA_ACK(void);//9
 void checkMR_DATA_ACK(void);//9
 void stopTransmitted(void);//10
