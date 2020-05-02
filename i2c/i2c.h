@@ -4,13 +4,13 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
-// Master Transmitter ---> S|SLA+W|a|DATA|a|P
+// Master Transmitter ---> S|SLA+W|a|DATA|a|P                     ---> sendStart(); 
 
-// Slave Receiver     ---> S|SLA+W|a|DATA|a|DATA|A|P or S
+// Slave Receiver     ---> S|SLA+W|a|DATA|a|DATA|A|P or S         ---> sendStart(); 
 
-// Master Receiver    ---> S|SLA+R|a|data|A|data|~A|P
+// Master Receiver    ---> S|SLA+R|a|data|A|data|~A|P             ---> sendStart(); 
 
-// Slave Transmitter  ---> S|SLA+R|a|data|A|data|~A|P or S
+// Slave Transmitter  ---> S|SLA+R|a|data|A|data|~A|P or S        ---> sendStart(); 
 
 void sendStart(void);//1
 void startTransmitted(void);//2
@@ -84,6 +84,11 @@ void sendDAta(int DATA) //7
   TWCR = (1<<TWINT) | (1<<TWEN);
 }
 
+void receiveData(void) //7
+{
+  
+}
+
 void dataACK_NACKreceived(void) //8
 {
   while (!(TWCR & (1<<TWINT)));
@@ -93,6 +98,11 @@ void checkMT_DATA_ACK(void) //9
 {
   if ((TWSR & 0xF8) != MT_DATA_ACK)
     ERROR();
+}
+
+void checkMR_DATA_ACK(void) //9
+{
+  
 }
 
 void stopTransmitted(void)  //10
