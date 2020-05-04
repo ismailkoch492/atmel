@@ -4,9 +4,25 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
-// Master Transmitter ---> S|SLA+W|-|DATA|-|DATA|A|P or S   ---> sendStart();|sendSLA_W();|SLA_W_ACK_NACKreceived();|sendData();|dataACK_NACKreceived();|stopTransmitted(); 
-// Slave Receiver          -|-----|a|----|a|----|-|------   ---> receiveStart();|receiveSLA_W();|3|4|5|6|7|8|9|stopReceived();|
+// Single Byte Write Sequence
+// Master Transmitter      S|SLA+W|-|DATA|-|DATA|-|P or S             sendStart();|sendSLA_W();|SLA_W_ACK_NACKreceived();|sendData();|dataACK_NACKreceived();|stopTransmitted(); 
+// Slave Receiver          -|-----|a|----|a|----|a|------             receiveStart();|receiveSLA_W();|3|4|5|6|7|8|9|stopReceived();|
 
+// Burst Write Sequence
+// Master Transmitter      S|SLA+W|-|DATA|-|DATA|-|DATA|-|P or S      sendStart();|sendSLA_W();|SLA_W_ACK_NACKreceived();|sendData();|dataACK_NACKreceived();|stopTransmitted(); 
+// Slave Receiver          -|-----|a|----|a|----|a|----|a|------      receiveStart();|receiveSLA_W();|3|4|5|6|7|8|9|stopReceived();|
+
+// Single Byte Read Sequence
+// Master Transmitter      S|SLA+W|-|DATA|-|S|SLA+R|-|----|A|----|~A|P
+// Slave Receiver          -|-----|a|----|a|-|-----|A|DATA|-|DATA|--|-
+
+// Burst Read Sequence
+// Master Transmitter      S|SLA+W|-|DATA|-|DATA|-|DATA|-|P or S
+// Slave Receiver          -|-----|a|----|a|----|a|----|a|------
+
+
+
+// 
 // Master Receiver    ---> S|SLA+R|-|----|A|----|~A|P or S  ---> sendStart();|sendSLA_R();|SLA_R_ACK_NACKreceived();|receiveData();|dataACK_NACKreceived();|receiveData();|void dataACK_NACKsend(void);|stopTransmitted();
 // Slave Transmitter  ---> -|-----|a|data|-|data|--|-       ---> receiveStart();|receiveSLA_R();|3|4|5|6|7|8|9|stopReceived();|
 
