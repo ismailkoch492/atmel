@@ -22,7 +22,7 @@
 
 
 void sendStart(void);//1
-void receiveStart(void)//1
+void receiveStart(void);//1
 void startTransmitted(void);//2
 void checkStart(void);//3
 void sendSLA_W(void);//4
