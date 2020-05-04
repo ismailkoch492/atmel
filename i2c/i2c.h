@@ -4,19 +4,19 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
-// Single Byte Write Sequence
+// Single Byte Write Sequence (MTSR)
 // Master Transmitter      S|SLA+W|-|DATA|-|DATA|-|P or S               sendStart();|sendSLA_W();|SLA_W_ACK_NACKreceived();|sendData();|dataACK_NACKreceived();|stopTransmitted(); 
 // Slave Receiver          -|-----|a|----|a|----|a|------               receiveStart();|receiveSLA_W();|3|4|5|6|7|8|9|stopReceived();|
 
-// Burst Write Sequence
+// Burst Write Sequence (MTSR)
 // Master Transmitter      S|SLA+W|-|DATA|-|DATA|-|DATA|-|P or S        sendStart();|sendSLA_W();|SLA_W_ACK_NACKreceived();|sendData();|dataACK_NACKreceived();|stopTransmitted(); 
 // Slave Receiver          -|-----|a|----|a|----|a|----|a|------        receiveStart();|receiveSLA_W();|3|4|5|6|7|8|9|stopReceived();|
 
-// Single Byte Read Sequence
+// Single Byte Read Sequence (MRST)
 // Master Transmitter      S|SLA+W|-|DATA|-|S|SLA+R|-|----|~A|P  
 // Slave Receiver          -|-----|a|----|a|-|-----|a|data|--|-  
 
-// Burst Read Sequence
+// Burst Read Sequence (MRST)
 // Master Transmitter      S|SLA+W|-|DATA|-|S|SLA+R|-|----|A|----|~A|P  
 // Slave Receiver          -|-----|a|----|a|-|-----|a|data|-|data|--|-  
 
@@ -45,7 +45,7 @@ void dataACK_NACKsend(void);//8
 void checkMT_DATA_ACK(void);//9
 void checkMR_DATA_ACK(void);//9
 void stopTransmitted(void);//10
-void stopReceived(void);
+void stopReceived(void);//10
 
 void sendStart(void)  //1
 {
@@ -113,7 +113,7 @@ void dataACK_NACKreceived(void) //8
   while (!(TWCR & (1<<TWINT)));
 }
 
-void dataACK_NACKsend(void)
+void dataACK_NACKsend(void) //
 {
   
 }
