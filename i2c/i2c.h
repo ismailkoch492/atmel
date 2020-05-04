@@ -4,13 +4,18 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
-// Master Transmitter ---> S|SLA+W|a|DATA|a|P               ---> sendStart();|sendSLA_W();|SLA_W_ACK_NACKreceived();|sendData();|dataACK_NACKreceived();|stopTransmitted(); 
+// Master Transmitter ---> S|SLA+W| |DATA| |P               ---> sendStart();|sendSLA_W();|SLA_W_ACK_NACKreceived();|sendData();|dataACK_NACKreceived();|stopTransmitted(); 
+//                          |     |a|    |a|
+// Slave Receiver     ---> S|SLA+W| |DATA| |DATA|A|P or S   ---> receiveStart();|receiveSLA_W();|3|4|5|6|7|8|9|stopReceived();|
+//                          |     |a|    |a|    | |
+// Master Receiver    ---> S|SLA+R| |    |A|     |~A|P      ---> sendStart();|sendSLA_R();|SLA_R_ACK_NACKreceived();|receiveData();|dataACK_NACKreceived();|receiveData();|void dataACK_NACKsend(void);|stopTransmitted();
+//                          |     |a|data| |data|  |
+// Slave Transmitter  ---> S|SLA+R| |    |A|    |~A|P or S  ---> receiveStart();|receiveSLA_R();|3|4|5|6|7|8|9|stopReceived();|
+//                          |     |a|data| |data|  |
 
-// Slave Receiver     ---> S|SLA+W|a|DATA|a|DATA|A|P or S   ---> receiveStart();|receiveSLA_W();|3|4|5|6|7|8|9|stopReceived();|
 
-// Master Receiver    ---> S|SLA+R|a|data|A|data|~A|P       ---> sendStart();|sendSLA_R();|SLA_R_ACK_NACKreceived();|receiveData();|dataACK_NACKreceived();|receiveData();|void dataACK_NACKsend(void);|stopTransmitted();
 
-// Slave Transmitter  ---> S|SLA+R|a|data|A|data|~A|P or S  ---> receiveStart();|receiveSLA_R();|3|4|5|6|7|8|9|stopReceived();|
+
 
 void sendStart(void);//1
 void receiveStart(void//1
