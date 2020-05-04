@@ -78,7 +78,7 @@ void receiveSLA_W_ACK_NACK(void) //5
   while(!(TWCR & (1<<TWINT)));
 }
 
-void receiveSLA_R_ACK_NACK //5
+void receiveSLA_R_ACK_NACK(void) //5
 {
   while(!(TWCR & (1<<TWINT)));
 }
