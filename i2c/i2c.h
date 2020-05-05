@@ -20,6 +20,11 @@
 // Master Transmitter      S|SLA+W|-|DATA|-|S|SLA+R|-|----|A|----|~A|P  sendStart();   |sendSLA_W();   |receiveSLA_W_ACK_NACK();|sendData();   |receiveDataACK_NACK();|sendStart();   |sendSLA_R();   |receiveSLA_R_ACK_NACK();|receiveData();|sendDataACK_NACK();   |receiveData();|sendDataNACK();       |sendStop();
 // Slave Receiver          -|-----|a|----|a|-|-----|a|data|-|data|--|-  receiveStart();|receiveSLA_W();|sendSLA_W_ACK_NACK();   |receiveData();|sendDataACK_NACK();   |receiveStart();|receiveSLA_R();|sendSLA_R_ACK_NACK();   |sendData();   |receiveDataACK_NACK();|sendData();   |receiveDataACK_NACK();|receiveStop();
 
+//
+//
+//
+//
+
 
 void sendStart(void);//1
 void receiveStart(void);//1
@@ -103,7 +108,8 @@ void sendData(int DATA) //7
 
 void receiveData(int DATA) //7
 {
-  DATA =TWDR
+  DATA = TWDR;
+  //TWCR  change
 }
 
 void receiveDataACK_NACK(void) //8
