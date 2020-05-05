@@ -119,7 +119,7 @@ void receiveDataACK_NACK(void) //8
 
 void sendDataACK_NACK(void) //
 {
-
+  //send ack bit when master receive data from slave
 }
 
 void checkMT_DATA_ACK(void) //9
