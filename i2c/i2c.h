@@ -101,9 +101,9 @@ void sendData(int DATA) //7
   TWCR = (1<<TWINT) | (1<<TWEN);
 }
 
-void receiveData(void) //7
+void receiveData(int DATA) //7
 {
-
+  DATA =TWDR
 }
 
 void receiveDataACK_NACK(void) //8
