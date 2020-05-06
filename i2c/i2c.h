@@ -85,11 +85,13 @@ void sendSLA_R(int SLA_R)  //4
 void receiveSLA_W_ACK_NACK(void) //5
 {
   while(!(TWCR & (1<<TWINT)));
+  checkMT_SLA_ACK();
 }
 
 void receiveSLA_R_ACK_NACK(void) //5
 {
   while(!(TWCR & (1<<TWINT)));
+  checkMR_SLA_ACK();
 }
 
 void checkMT_SLA_ACK(void) //6
@@ -119,11 +121,13 @@ void receiveData(int DATA) //7
 void receiveDataACK_NACK(void) //8
 {
   while (!(TWCR & (1<<TWINT)));
+  checkMR_DATA_ACK();
 }
 
-void sendDataACK_NACK(void) //
+void sendDataACK_NACK(void) //8
 {
   //send ack bit when master receive data from slave.
+  checkMT_DATA_ACK();
 }
 
 void checkMT_DATA_ACK(void) //9
