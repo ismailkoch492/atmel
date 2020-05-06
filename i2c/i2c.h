@@ -30,8 +30,8 @@ void sendStart(void);//1
 void receiveStart(void);//1
 void startTransmitted(void);//2
 void checkStart(void);//3
-void sendSLA_W(void);//4
-void sendSLA_R(void);//4
+void sendSLA_W(int SLA_W);//4
+void sendSLA_R(int SLA_R);//4
 void receiveSLA_W(void);//4
 void receiveSLA_R(void);//4
 void sendSLA_W_ACK_NACK(void);
@@ -53,6 +53,8 @@ void receiveStop(void);//10
 void sendStart(void)  //1
 {
   TWCR = (1<<TWINT)|(1<<TWSTA)| (1<<TWEN);
+  startTransmitted(); //2
+  checkStart(); //3
 }
 
 void startTransmitted(void) //2
@@ -66,14 +68,16 @@ void checkStart(void) //3
     ERROR();
 }
 
-void sendSLA_W(void)  //4
+void sendSLA_W(int SLA_W)  //4
 {
+  SLA_W = (SLA_W<<1);
   TWDR = SLA_W;
   TWCR = (1<<TWINT) | (1<<TWEN);
 }
 
-void sendSLA_R(void)  //4
+void sendSLA_R(int SLA_R)  //4
 {
+  SLA_R = (SLA_R<<1) | (1<<0);
   TWDR = SLA_R;
   TWCR = (1<<TWINT) | (1<<TWEN);
 }
@@ -81,11 +85,13 @@ void sendSLA_R(void)  //4
 void receiveSLA_W_ACK_NACK(void) //5
 {
   while(!(TWCR & (1<<TWINT)));
+  checkMT_SLA_ACK();
 }
 
 void receiveSLA_R_ACK_NACK(void) //5
 {
   while(!(TWCR & (1<<TWINT)));
+  checkMR_SLA_ACK();
 }
 
 void checkMT_SLA_ACK(void) //6
@@ -115,11 +121,13 @@ void receiveData(int DATA) //7
 void receiveDataACK_NACK(void) //8
 {
   while (!(TWCR & (1<<TWINT)));
+  checkMR_DATA_ACK();
 }
 
-void sendDataACK_NACK(void) //
+void sendDataACK_NACK(void) //8
 {
   //send ack bit when master receive data from slave.
+  checkMT_DATA_ACK();
 }
 
 void checkMT_DATA_ACK(void) //9
@@ -130,7 +138,8 @@ void checkMT_DATA_ACK(void) //9
 
 void checkMR_DATA_ACK(void) //9
 {
-
+  if ((TWSR & 0xF8) != MR_DATA_ACK)
+    ERROR();
 }
 
 void sendStop(void)  //10
