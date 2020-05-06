@@ -70,14 +70,14 @@ void checkStart(void) //3
 
 void sendSLA_W(int SLA_W)  //4
 {
-
+  SLA_W = (SLA_W<<1);
   TWDR = SLA_W;
   TWCR = (1<<TWINT) | (1<<TWEN);
 }
 
 void sendSLA_R(int SLA_R)  //4
 {
-
+  SLA_R = (SLA_R<<1) | (1<<0);
   TWDR = SLA_R;
   TWCR = (1<<TWINT) | (1<<TWEN);
 }
