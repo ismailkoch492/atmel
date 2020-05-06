@@ -54,6 +54,7 @@ void sendStart(void)  //1
 {
   TWCR = (1<<TWINT)|(1<<TWSTA)| (1<<TWEN);
   startTransmitted();
+  checkStart();
 }
 
 void startTransmitted(void) //2
