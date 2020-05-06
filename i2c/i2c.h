@@ -138,7 +138,8 @@ void checkMT_DATA_ACK(void) //9
 
 void checkMR_DATA_ACK(void) //9
 {
-
+  if ((TWSR & 0xF8) != MR_DATA_ACK)
+    ERROR();
 }
 
 void sendStop(void)  //10
