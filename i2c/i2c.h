@@ -53,6 +53,7 @@ void receiveStop(void);//10
 void sendStart(void)  //1
 {
   TWCR = (1<<TWINT)|(1<<TWSTA)| (1<<TWEN);
+  startTransmitted();
 }
 
 void startTransmitted(void) //2
