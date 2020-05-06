@@ -30,8 +30,8 @@ void sendStart(void);//1
 void receiveStart(void);//1
 void startTransmitted(void);//2
 void checkStart(void);//3
-void sendSLA_W(void);//4
-void sendSLA_R(void);//4
+void sendSLA_W(int SLA_W);//4
+void sendSLA_R(int SLA_R);//4
 void receiveSLA_W(void);//4
 void receiveSLA_R(void);//4
 void sendSLA_W_ACK_NACK(void);
@@ -53,8 +53,8 @@ void receiveStop(void);//10
 void sendStart(void)  //1
 {
   TWCR = (1<<TWINT)|(1<<TWSTA)| (1<<TWEN);
-  startTransmitted();
-  checkStart();
+  startTransmitted(); //2
+  checkStart(); //3
 }
 
 void startTransmitted(void) //2
@@ -68,14 +68,16 @@ void checkStart(void) //3
     ERROR();
 }
 
-void sendSLA_W(void)  //4
+void sendSLA_W(int SLA_W)  //4
 {
+
   TWDR = SLA_W;
   TWCR = (1<<TWINT) | (1<<TWEN);
 }
 
-void sendSLA_R(void)  //4
+void sendSLA_R(int SLA_R)  //4
 {
+
   TWDR = SLA_R;
   TWCR = (1<<TWINT) | (1<<TWEN);
 }
