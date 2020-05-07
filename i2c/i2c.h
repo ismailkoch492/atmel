@@ -1,5 +1,5 @@
 #define F_CPU 16000000UL
-#define F_SCL 400000
+#define F_SCL 400000UL
 #define I2C_PRES 1
 
 #include <avr/io.h>
@@ -51,7 +51,7 @@ void receiveSLA_R_ACK_NACK(void);//5
 void checkMT_SLA_ACK(void);//6
 void checkMR_SLA_ACK(void);//6
 void sendData(int DATA);//7
-void receiveData(int DATA);//7
+int receiveData(int DATA);//7
 void sendDataACK_NACK(void);//8
 void sendDataNACK(void);//8
 void receiveDataACK_NACK(void);//8
@@ -122,7 +122,7 @@ void sendData(int DATA) //7
   TWCR = (1<<TWINT) | (1<<TWEN);
 }
 
-void receiveData(int DATA) //7
+int receiveData(int DATA) //7
 {
   DATA = TWDR;
   //TWCR  change
