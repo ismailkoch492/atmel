@@ -1,4 +1,6 @@
 #define F_CPU 16000000UL
+#define F_SCL 400000
+#define I2C_PRES 1
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -20,11 +22,19 @@
 // Master Transmitter      S|SLA+W|-|DATA|-|S|SLA+R|-|----|A|----|~A|P  sendStart();   |sendSLA_W();   |receiveSLA_W_ACK_NACK();|sendData();   |receiveDataACK_NACK();|sendStart();   |sendSLA_R();   |receiveSLA_R_ACK_NACK();|receiveData();|sendDataACK_NACK();   |receiveData();|sendDataNACK();       |sendStop();
 // Slave Receiver          -|-----|a|----|a|-|-----|a|data|-|data|--|-  receiveStart();|receiveSLA_W();|sendSLA_W_ACK_NACK();   |receiveData();|sendDataACK_NACK();   |receiveStart();|receiveSLA_R();|sendSLA_R_ACK_NACK();   |sendData();   |receiveDataACK_NACK();|sendData();   |receiveDataACK_NACK();|receiveStop();
 
-//
-//
-//
-//
+#if I2C_PRES == 1
+TWSR &= ~(1<<TWSP1)|(1<<TWSP0);
+#elif I2C_PRES == 4
+TWSR &= ~(1<<TWSP0);
+TWSR |= (1<<TWSP1);
+#elif I2C_PRES == 16
+TWSR &= ~(1<<TWSP1);
+TWSR |= (1<<TWSP0);
+#elif I2C_PRES == 64
+TWSR |= (1<<TWSP1)|(1<<TWSP0);
+#endif
 
+TWBR = (F_CPU/F_SCL - 16)/(2*I2C_PRES);
 
 void sendStart(void);//1
 void receiveStart(void);//1
