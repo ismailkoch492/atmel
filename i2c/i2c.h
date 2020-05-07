@@ -25,11 +25,11 @@
 #if I2C_PRES == 1
 TWSR &= ~(1<<TWSP1)|(1<<TWSP0);
 #elif I2C_PRES == 4
-TWSR &= ~(1<<TWSP0);
-TWSR |= (1<<TWSP1);
-#elif I2C_PRES == 16
 TWSR &= ~(1<<TWSP1);
 TWSR |= (1<<TWSP0);
+#elif I2C_PRES == 16
+TWSR &= ~(1<<TWSP0);
+TWSR |= (1<<TWSP1);
 #elif I2C_PRES == 64
 TWSR |= (1<<TWSP1)|(1<<TWSP0);
 #endif
