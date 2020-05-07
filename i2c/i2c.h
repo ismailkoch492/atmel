@@ -5,6 +5,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
+#include <util/twi.h>
 
 // Single Byte Write Sequence (MTSR)
 // Master Transmitter      S|SLA+W|-|DATA|-|DATA|-|P or S               sendStart();   |sendSLA_W();   |receiveSLA_W_ACK_NACK();|sendData();   |receiveDataACK_NACK();|sendData();|receiveDataACK_NACK();|sendStop();
