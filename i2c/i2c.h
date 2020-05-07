@@ -143,13 +143,13 @@ void sendDataACK_NACK(void) //8
 
 void checkMT_DATA_ACK(void) //9
 {
-  if ((TWSR & 0xF8) != MT_DATA_ACK)
+  if ((TWSR & 0xF8) != TW_MT_DATA_ACK)
     ERROR();
 }
 
 void checkMR_DATA_ACK(void) //9
 {
-  if ((TWSR & 0xF8) != MR_DATA_ACK)
+  if ((TWSR & 0xF8) != TW_MR_DATA_ACK)
     ERROR();
 }
 
