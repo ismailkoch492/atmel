@@ -1,3 +1,6 @@
+#ifndef I2CMASTER
+#define I2CMASTER
+
 #define F_CPU 16000000UL
 #define F_SCL 400000UL
 #define I2C_PRES 1
@@ -157,3 +160,4 @@ void sendStop(void)  //10
 {
   TWCR = (1<<TWINT)|(1<<TWEN)| (1<<TWSTO);
 }
+#endif
