@@ -132,14 +132,20 @@ void receiveSLA_R_ACK_NACK(void) //5
 
 void checkMT_SLA_ACK(void) //6
 {
-  if ((TWSR & 0xF8) != TW_MT_SLA_ACK)
-    ERROR();
+  if ((TWSR & 0xF8) == TW_MT_SLA_NACK)
+  {
+    sendStop();
+    continue;
+  }
 }
 
 void checkMR_SLA_ACK(void) //6
 {
-  if ((TWSR & 0xF8) != TW_MR_SLA_ACK)
-    ERROR();
+  if ((TWSR & 0xF8) == TW_MR_SLA_NACK)
+  {
+    sendStop();
+    continue;
+  }
 }
 
 void sendData(int DATA) //7
@@ -168,14 +174,20 @@ void sendDataACK_NACK(void) //8
 
 void checkMT_DATA_ACK(void) //9
 {
-  if ((TWSR & 0xF8) != TW_MT_DATA_ACK)
-    ERROR();
+  if ((TWSR & 0xF8) == TW_MT_DATA_NACK)
+  {
+    sendStop();
+    continue;
+  }
 }
 
 void checkMR_DATA_ACK(void) //9
 {
-  if ((TWSR & 0xF8) != TW_MR_DATA_ACK)
-    ERROR();
+  if ((TWSR & 0xF8) != TW_MR_DATA_NACK)
+  {
+    sendStop();
+    continue;
+  }
 }
 
 void sendStop(void)  //10
