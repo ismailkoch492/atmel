@@ -1,7 +1,10 @@
 #ifndef I2CMASTER
 #define I2CMASTER
 
+#ifndef F_CPU
 #define F_CPU 16000000UL
+#endif
+
 #define F_SCL 400000UL
 #define I2C_PRES 1
 
@@ -63,6 +66,10 @@ void checkMT_DATA_ACK(void);//9
 void checkMR_DATA_ACK(void);//9
 void sendStop(void);//10
 void receiveStop(void);//10
+void SingleMTSR(int slaveAddress, int registerAddress, int data);
+void BurstMTSR(int slaveAddress, int registerAddress, int firstData, int secondData);
+void SingleMRST(int slaveAddress, int registerAddress, int data);
+void BurstMRST(int slaveAddress, int registerAddress, int firstData, int secondData);
 
 void sendStart(void)  //1
 {
@@ -160,4 +167,63 @@ void sendStop(void)  //10
 {
   TWCR = (1<<TWINT)|(1<<TWEN)| (1<<TWSTO);
 }
+
+void SingleMTSR(int slaveAddress, int registerAddress, int data)
+{
+  sendStart();
+  sendSLA_W(slaveAddress);
+  receiveSLA_W_ACK_NACK();
+  sendData(registerAddress);
+  receiveDataACK_NACK();
+  sendData(data);
+  receiveDataACK_NACK();
+  sendStop();
+}
+
+void BurstMTSR(int slaveAddress, int registerAddress, int firstData, int secondData)
+{
+  sendStart();
+  sendSLA_W(slaveAddress);
+  receiveSLA_W_ACK_NACK();
+  sendData(registerAddress);
+  receiveDataACK_NACK();
+  sendData(firstData);
+  receiveDataACK_NACK();
+  sendData(secondData);
+  receiveDataACK_NACK();
+  sendStop();
+}
+
+void SingleMRST(int slaveAddress, int registerAddress, int data)
+{
+  sendStart();
+  sendSLA_W(slaveAddress);
+  receiveSLA_W_ACK_NACK();
+  sendData(registerAddress);
+  receiveDataACK_NACK();
+  sendStart();
+  sendSLA_R();
+  receiveSLA_R_ACK_NACK();
+  receiveData(data);
+  sendDataNACK();
+  sendStop();
+}
+
+void BurstMRST(int slaveAddress, int registerAddress, int firstData, int secondData)
+{
+  sendStart();
+  sendSLA_W(slaveAddress);
+  receiveSLA_W_ACK_NACK();
+  sendData(registerAddress);
+  receiveDataACK_NACK();
+  sendStart();
+  sendSLA_R();
+  receiveSLA_R_ACK_NACK();
+  receiveData(firstData);
+  sendDataACK_NACK();
+  receiveData(secondData);
+  sendDataNACK();
+  sendStop();
+}
+
 #endif
