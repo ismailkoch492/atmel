@@ -7,6 +7,7 @@
 #include <util/delay.h>
 #include <util/twi.h>
 #include "i2cMaster.h"
+#include "mpu9250.h"
 
 int main()
 {
