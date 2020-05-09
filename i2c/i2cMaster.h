@@ -70,8 +70,8 @@ void sendStop(void);//10
 void receiveStop(void);//10
 void SingleMTSR(int slaveAddress, int registerAddress, int data);
 void BurstMTSR(int slaveAddress, int registerAddress, int firstData, int secondData);
-void SingleMRST(int slaveAddress, int registerAddress, int data);
-void BurstMRST(int slaveAddress, int registerAddress, int firstData, int secondData);
+void SingleMRST(int slaveAddress, int registerAddress);
+void BurstMRST(int slaveAddress, int registerAddress);
 
 void sendStart(void)  //1
 {
@@ -95,13 +95,16 @@ void startTransmitted(void) //2
 void checkStart(void) //3
 {
   if((TWSR & 0xF8) != TW_START)
-    ERROR();
+    continue;
 }
 
 void checkRepeatedStart(void)
 {
   if((TWSR & 0xF8) != TW_REP_START)
-    ERROR();
+  {
+    sendStop();
+    continue;
+  }
 }
 
 void sendSLA_W(int SLA_W)  //4
@@ -221,7 +224,7 @@ void BurstMTSR(int slaveAddress, int registerAddress, int firstData, int secondD
   sendStop();
 }
 
-void SingleMRST(int slaveAddress, int registerAddress, int data)
+void SingleMRST(int slaveAddress, int registerAddress)
 {
   sendStart();
   sendSLA_W(slaveAddress);
@@ -236,7 +239,7 @@ void SingleMRST(int slaveAddress, int registerAddress, int data)
   sendStop();
 }
 
-void BurstMRST(int slaveAddress, int registerAddress, int firstData, int secondData)
+void BurstMRST(int slaveAddress, int registerAddress)
 {
   sendStart();
   sendSLA_W(slaveAddress);
