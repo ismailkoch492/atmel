@@ -6,13 +6,20 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include <util/twi.h>
+#include <stdlib.h>
 #include "i2cMaster.h"
 #include "mpu9250.h"
 
 int main()
 {
+  int accelData[6];
+  int gyroData[6];
+  int magData[6];
+
   while(1)
   {
-      //to be completed
+      accelData[0] = SingleMRST(SLA1, ACCEL_XOUT_H);
+      gyroData[0] = SingleMRST(SLA1, GYRO_XOUT_H);
+      magData[0] = SingleMRST(SLA1, HXL);
   }
 }

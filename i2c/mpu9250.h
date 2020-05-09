@@ -5,6 +5,7 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include <util/twi.h>
+#include <stdlib.h>
 
 #define ACCEL_XOUT_H  0x3B
 #define ACCEL_XOUT_L  0x3C
