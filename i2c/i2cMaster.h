@@ -95,13 +95,16 @@ void startTransmitted(void) //2
 void checkStart(void) //3
 {
   if((TWSR & 0xF8) != TW_START)
-    ERROR();
+    continue;
 }
 
 void checkRepeatedStart(void)
 {
   if((TWSR & 0xF8) != TW_REP_START)
-    ERROR();
+  {
+    sendStop();
+    continue;
+  }
 }
 
 void sendSLA_W(int SLA_W)  //4
