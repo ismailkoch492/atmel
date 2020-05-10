@@ -12,6 +12,7 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include <util/twi.h>
+#include <stdlib.h>
 
 // Single Byte Write Sequence (MTSR)
 // Master Transmitter      S|SLA+W|-|DATA|-|DATA|-|P or S               sendStart();   |sendSLA_W();   |receiveSLA_W_ACK_NACK();|sendData();   |receiveDataACK_NACK();|sendData();|receiveDataACK_NACK();|sendStop();
@@ -60,7 +61,7 @@ void receiveSLA_R_ACK_NACK(void);//5
 void checkMT_SLA_ACK(void);//6
 void checkMR_SLA_ACK(void);//6
 void sendData(int DATA);//7
-int receiveData(int DATA);//7
+int receiveData(void);//7
 void sendDataACK_NACK(void);//8
 void sendDataNACK(void);//8
 void receiveDataACK_NACK(void);//8
@@ -157,10 +158,9 @@ void sendData(int DATA) //7
   TWCR = (1<<TWINT) | (1<<TWEN);
 }
 
-int receiveData(int DATA) //7
+int receiveData(void) //7
 {
-  DATA = TWDR;
-  //TWCR  change
+  return(TWDR);
 }
 
 void receiveDataACK_NACK(void) //8
@@ -226,6 +226,7 @@ void BurstMTSR(int slaveAddress, int registerAddress, int firstData, int secondD
 
 void SingleMRST(int slaveAddress, int registerAddress)
 {
+  int data;
   sendStart();
   sendSLA_W(slaveAddress);
   receiveSLA_W_ACK_NACK();
@@ -234,13 +235,15 @@ void SingleMRST(int slaveAddress, int registerAddress)
   sendRepeatedStart();
   sendSLA_R();
   receiveSLA_R_ACK_NACK();
-  receiveData(data);
+  data = receiveData();
   sendDataNACK();
   sendStop();
+  return(data);
 }
 
 void BurstMRST(int slaveAddress, int registerAddress)
 {
+  int data[2];
   sendStart();
   sendSLA_W(slaveAddress);
   receiveSLA_W_ACK_NACK();
@@ -249,11 +252,12 @@ void BurstMRST(int slaveAddress, int registerAddress)
   sendRepeatedStart();
   sendSLA_R();
   receiveSLA_R_ACK_NACK();
-  receiveData(firstData);
+  data[0] = receiveData();
   sendDataACK_NACK();
-  receiveData(secondData);
+  data[1] = receiveData();
   sendDataNACK();
   sendStop();
+  return(data);
 }
 
 #endif

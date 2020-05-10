@@ -6,13 +6,22 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include <util/twi.h>
+#include <stdlib.h>
 #include "i2cMaster.h"
 #include "mpu9250.h"
 
 int main()
 {
+  int accelData[3];
+  int gyroData[3];
+  int tempData[1];
+  int magData[3];
+
   while(1)
   {
-      //to be completed
+      accelData = getAccelData();
+      gyroData = getGyroData();
+      tempData = getTempData();
+      magData = getMagData();
   }
 }
