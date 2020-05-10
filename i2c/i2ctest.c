@@ -12,14 +12,16 @@
 
 int main()
 {
-  int accelData[6];
-  int gyroData[6];
-  int magData[6];
+  int accelData[3];
+  int gyroData[3];
+  int tempData[1];
+  int magData[3];
 
   while(1)
   {
-      accelData[0] = SingleMRST(SLA1, ACCEL_XOUT_H);
-      gyroData[0] = SingleMRST(SLA1, GYRO_XOUT_H);
-      magData[0] = SingleMRST(SLA1, HXL);
+      accelData = getAccelData();
+      gyroData = getGyroData();
+      tempData = getTempData();
+      magData = getMagData();
   }
 }
