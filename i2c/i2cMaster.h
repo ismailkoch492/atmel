@@ -160,7 +160,9 @@ void sendData(int DATA) //7
 
 int receiveData(void) //7
 {
-  return(TWDR);
+  int data = TWDR;
+  TWCR = (1<<TWINT) | (1<<TWEN);
+  return(data);
 }
 
 void receiveDataACK_NACK(void) //8
@@ -173,6 +175,12 @@ void sendDataACK_NACK(void) //8
 {
   //send ack bit when master receive data from slave.
   checkMT_DATA_ACK();
+}
+
+void sendDataNACK(void)
+{
+  //if 0x50
+  TWCR = (1<<TWINT);
 }
 
 void checkMT_DATA_ACK(void) //9
