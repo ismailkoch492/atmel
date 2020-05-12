@@ -181,6 +181,8 @@ void sendDataNACK(void)
 {
   //if 0x50
   TWCR = (1<<TWINT);
+  //else if others
+  //TWCR = ();
 }
 
 void checkMT_DATA_ACK(void) //9
