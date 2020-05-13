@@ -161,6 +161,7 @@ void sendData(int DATA) //7
 
 int receiveData(void) //7
 {
+  while(!(TWCR & (1<<TWINT)));
   int data = TWDR;
   TWCR = (1<<TWINT) | (1<<TWEN);
   return(data);
