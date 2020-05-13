@@ -183,6 +183,7 @@ void sendDataNACK(void)
   TWCR = (1<<TWINT);
   //else if others
   //TWCR = ();
+  if ((TWSR & 0xF8) == TW_)
 }
 
 void checkMT_DATA_ACK(void) //9
@@ -222,15 +223,15 @@ void SingleMTSR(int slaveAddress, int registerAddress, int data)
 
 void BurstMTSR(int slaveAddress, int registerAddress, int firstData, int secondData)
 {
-  sendStart();
+  sendStart();                //0x08 (TW_START)
   sendSLA_W(slaveAddress);
-  receiveSLA_W_ACK_NACK();
+  receiveSLA_W_ACK_NACK();    //0x18 (TW_MT_SLA_ACK) | 0x20 (TW_MT_SLA_NACK)
   sendData(registerAddress);
-  receiveDataACK_NACK();
+  receiveDataACK_NACK();      //0x28 (TW_MT_DATA_ACK) | 0x30 (TW_MT_SLA_NACK)
   sendData(firstData);
-  receiveDataACK_NACK();
+  receiveDataACK_NACK();      //0x28 (TW_MT_DATA_ACK) | 0x30 (TW_MT_DATA_ACK)
   sendData(secondData);
-  receiveDataACK_NACK();
+  receiveDataACK_NACK();      //0x28 (TW_MT_DATA_ACK) | 0x30 (TW_MT_DATA_NACK)
   sendStop();
 }
 
@@ -254,18 +255,18 @@ void SingleMRST(int slaveAddress, int registerAddress)
 void BurstMRST(int slaveAddress, int registerAddress)
 {
   int data[2];
-  sendStart();
+  sendStart();              //0x08 (TW_START)
   sendSLA_W(slaveAddress);
-  receiveSLA_W_ACK_NACK();
+  receiveSLA_W_ACK_NACK();  //0x18 (TW_MT_SLA_ACK) | 0x20 (TW_MT_SLA_NACK)
   sendData(registerAddress);
-  receiveDataACK_NACK();
-  sendRepeatedStart();
+  receiveDataACK_NACK();    //0x28 (TW_MT_DATA_ACK) | 0x30 (TW_MT_DATA_NACK)
+  sendRepeatedStart();      //0x10 (TW_REP_START)
   sendSLA_R();
-  receiveSLA_R_ACK_NACK();
+  receiveSLA_R_ACK_NACK();  //0x40 (TW_MR_SLA_ACK) | 0x48 (TW_MR_SLA_NACK)
   data[0] = receiveData();
-  sendDataACK_NACK();
+  sendDataACK_NACK();       //0x50 (TW_MR_DATA_ACK)
   data[1] = receiveData();
-  sendDataNACK();
+  sendDataNACK();           //0x58 (TW_MR_DATA_NACK)
   sendStop();
   return(data);
 }
