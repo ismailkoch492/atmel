@@ -12,6 +12,8 @@
 
 int main()
 {
+  TWCR |= (1<<TWIE);
+  sei();
   int accelData[3];
   int gyroData[3];
   int tempData[1];
